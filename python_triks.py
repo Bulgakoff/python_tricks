@@ -238,4 +238,32 @@ analitics = {'название': [], 'цена': [], 'количество': [],
 num = 0  # num += 1
 for key, value in analitics.items():
     print(key, value)
-# ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+# /////////////////быстрая сортировка ///////////////////////////////////////////////////////////////////////////////////////////////
+qwe = [6, 50, 5, 3, 5, 53]
+
+
+def qsort_merge(lst):
+    if len(lst) < 2:
+        return lst
+    else:
+        # pivot = arr[0]
+        low = 0
+        high = len(lst) - 1
+        mid = (low + high) // 2
+        pivot = lst[mid]
+        less = [p for p in lst if pivot > p]
+        more = [p for p in lst if pivot < p]
+        return qsort_merge(less) + [pivot] + qsort_merge(more)
+
+
+res_qsort_merge = qsort_merge(qwe)
+print(res_qsort_merge)
+
+# /////////////////////// последнее число в числе выделяечтся и отсекается распределяясь в списке
+nn = 7636
+lst5 = []
+while nn > 0:
+    qwe = nn % 10
+    lst5.append(qwe)
+    nn //= 10
+print(lst5)
