@@ -125,6 +125,24 @@ print(new_my_func)
 print(f'--------------{new_my_func(3, 5)}')
 # ////////////////бесконечного цикла набора значения конечно со счетчиком/////////////
 from itertools import cycle
+import time
+
+#
+# repid = ['красный', 'желтый', 'зеленый']
+# c = 0
+# for it in cycle(repid):
+#     if c > 6:
+#         break
+#     if it == 'красный':
+#         time.sleep(2)
+#         print(it)
+#     elif it == 'желтый':
+#         time.sleep(1)
+#         print(it)
+#     else:
+#         time.sleep(1)
+#         print(it)
+#     c += 1
 
 с = 0
 for el in cycle("ABC"):
@@ -181,7 +199,7 @@ print(g)
 
 for el in g:
     print(el)
-# ///////////////////////////////факториал /////////////////////
+# ///////////////yield////////////////факториал ///////yield//////////////
 n = 4
 
 
@@ -238,15 +256,205 @@ analitics = {'название': [], 'цена': [], 'количество': [],
 num = 0  # num += 1
 for key, value in analitics.items():
     print(key, value)
+
+# /////////////////////// последнее число в числе выделяечтся и отсекается распределяясь в списке
+nn = 7636
+lst5 = []
+while nn > 0:
+    qwe = nn % 10
+    lst5.append(str(qwe))
+    nn //= 10
+res = int(''.join(lst5))
+print(res)
+print(type(res))
+print('////////partial//////')
+
+
+def foo(n1, n2):
+    return n1 * n2
+
+
+res_foo = partial(foo, 5)
+print(res_foo(5))
+print(partial(foo, 5)(2))
+print('///////////найти числа в строке//////////////')
+
+list_num = []
+for i in 'bla23bla1bla8bla2':
+    try:
+        num = int(i)
+        list_num.append(num)
+    except ValueError:
+        continue
+print(list_num)
+
+print('# ///////////////name, form, revenue, costs = line.split()////////////////////////////////')
+line = ['gw er ge rg', 'we gw e g', 'erg w gw g', 'k r jg o']
+
+for el in line:
+    name, form, revenue, costs = el.split()  # каждый элемент разделен на 4 переменных
+    print(name, form, revenue, costs)
+# print('///////////работа со словарем ////[int(v[:v.find('(')]) for v in splited_lst[1:]]/////////////////////'))
+d = {}
+lst_readed = 'Информатика: 100(л) 57(пр) 20(лаб)'
+splited_lst = lst_readed.split()
+print(splited_lst)
+d[splited_lst[0]] = sum([int(v[:v.find('(')]) for v in splited_lst[1:]])
+print(d)
+# ///////////////revers ///////////////////////
+qwe = [7, 2, 7, 1, 7, 2, 9, 6, 5, 6, 76, 7]
+
+for i in range(len(qwe) // 2):
+    # qwe[i], qwe[len(qwe) - 1 - i] = qwe[len(qwe) - 1 - i], qwe[i]
+    qwe = qwe[::-1]  # рикольно
+print(qwe)
+print('/////////декораторы @wrap//////@property////////setter/////////')
+import math
+from functools import wraps
+
+
+def log_decor(foo):
+    @wraps(foo)  # декоратор для декоратра,
+    # help()....что бы метаданные копировались во внешний контур (интроспекция)
+    def wrap(*args, **kwargs):  # пропих параметров любых
+        print(f'такая то foo {foo.__name__} start work ')
+        foo(*args, **kwargs)  # пропих аргументов
+        print(f'такая то foo {foo.__name__} stop work ')
+
+    return wrap  # ссылку возвращаем  как переменную
+
+
+def factor(num):
+    print(f'факториал числа {num} == {math.factorial(num)}')
+
+
+# log_decor = log_decor(factor)  # ссылку передаем как переменную
+# log_decor(4)
+@log_decor
+def factor(num):
+    print(f'факториал числа {num} == {math.factorial(num)}')
+
+
+factor(6)
+help(factor)
+print('//////@property/////////')
+
+
+# class Car:
+#     def __init__(self, year):
+#         self.y = year
+#
+#     @property
+#     def yyy(self):
+#         return self.y
+#
+#
+# car1 = Car(2009)
+# print(car1.yyy)
+
+class Car:
+    def __init__(self, year):
+        # Инициализация свойств.
+        self.y = year
+
+    # создаем свойство года
+    @property
+    def y(self):  # крайне важно установить имяя атрибута точно тут 'y'
+        return self._y
+
+    # сеттер для создания свойств
+    @y.setter  # крайне важно установить имяя атрибута точно тут  'y'
+    def y(self, pars):  # крайне важно установить имяя атрибута точно тут 'y'
+        if pars < 2000:
+            self._y = 2000
+        else:
+            self._y = pars
+
+    def get_auto(self):
+        return f'авто выпущено в  {self.y} году '  # и смотрим что в конструквторе обезопасили
+
+
+car1 = Car(1555)
+
+print(car1.get_auto())  # авто выпущено в  2000 ------>>> !!!!!!!!! году
+print('разные СОРТИРОВКИ - ВЫБОРОМ, ПУЗЫРЬКА, БЫСТРАЯ СОРТИРОВКА')
+# ////////// ВЫБОРОМ
+f_lst = [4, 8, -5, 4, 9, 2]
+
+
+def def_index2(arr):
+    min_val = arr[0]
+    min_ind = 0
+    for i in range(len(f_lst)):
+        if min_val > arr[i]:
+            min_val = arr[i]
+            min_ind = i
+    return min_ind
+
+
+res_def_index2 = def_index2(f_lst)
+print(f'++++=========min_ind=====> {res_def_index2}')
+
+
+def sort_choo1(arr):
+    lst_choo = []
+    for i in range(len(arr)):
+        qqq = arr.pop(def_index2(arr))
+        lst_choo.append(qqq)
+    return lst_choo
+
+
+res_choo = sort_choo1(f_lst)
+print(f'==========СОРТИРОВКИ - ВЫБОРОМ===1=========> {res_choo}')
+# //////////=СОРТИРОВКИ - ВЫБОРОМ====2= н
+f_lst = [4, 8, -5, 34, 56, 67, 3434, 556, 423]
+i = 0
+while i < len(f_lst) - 1:
+    min_el = i  # на каждом нидексе считаем его мин элементом и сравниваем в  цикле ниже
+    j = i + 1  # j = 1
+    while j < len(f_lst):
+        if f_lst[j] < f_lst[min_el]:
+            f_lst[min_el], f_lst[j] = f_lst[j], f_lst[min_el]
+        j += 1
+    i += 1
+print(f'==========СОРТИРОВКИ - ВЫБОРОМ====2========> {f_lst}')
+
+print('  ПУЗЫРЬКА ')
+qwe = [4, 8, -5]
+
+i = 0
+while i < len(qwe) - 1:
+    j = 0
+    while j < len(qwe) - 1:
+        if qwe[i] > qwe[j + 1]:
+            qwe[i], qwe[j + 1] = qwe[j + 1], qwe[i]
+        j += 1
+
+    i += 1
+print(f'------ПУЗЫРЬКА----1---> {qwe}')
+# /////////////////for i in range
+qwe = [4, 8, -5, 45, 67, 34, 56, 76, 234]
+
+for i in range(len(qwe) - 1):
+    for j in range(len(qwe) - 1):
+        if qwe[j] > qwe[j + 1]:
+            qwe[j], qwe[j + 1] = qwe[j + 1], qwe[j]
+
+print(f'------ПУЗЫРЬКА----2---> {qwe}')
+print('# БЫСТРАЯ СОРТИРОВКА')
 # /////////////////быстрая сортировка ///////////////////////////////////////////////////////////////////////////////////////////////
 qwe = [6, 50, 5, 3, 5, 53]
+
+import time
+
+a = time.time()
 
 
 def qsort_merge(lst):
     if len(lst) < 2:
         return lst
     else:
-        # pivot = arr[0]
+        # pivot = lst[0]
         low = 0
         high = len(lst) - 1
         mid = (low + high) // 2
@@ -257,13 +465,40 @@ def qsort_merge(lst):
 
 
 res_qsort_merge = qsort_merge(qwe)
-print(res_qsort_merge)
+print(f'===БЫСТРАЯ СОРТИРОВКА смещением опорный элемент pivot===============> {res_qsort_merge}')
+b = time.time()
+print(f'-------замер скрости---------------{b - a}')
 
-# /////////////////////// последнее число в числе выделяечтся и отсекается распределяясь в списке
-nn = 7636
-lst5 = []
-while nn > 0:
-    qwe = nn % 10
-    lst5.append(qwe)
-    nn //= 10
-print(lst5)
+print('#//////while///////есил надо чтото исключать из списка (динамически менять размер(количество иттераций))')
+# удалить отрицательные цифры ////while///////while///////while///////while///
+qwe = [4, 8, -5, 4, 8, -5, 45, 67, 34, - 56, 76, 234]
+i = 0
+while i < len(qwe):  # тут рождается заново  массив  внутренних иттераций
+    var_len = len(qwe)
+    j = 0
+    while j < var_len:  # вся работа происходит тут
+        if qwe[j] < 0:
+            qwe.remove(qwe[j])
+            var_len -= 1
+        else:
+            j += 1
+    i += 1
+print(f'----------без отриц чисел----------> {qwe}')
+print('# //////zip//// объединение последовательностей в кортежи прееданных  в качестве агрументов////////')
+qwe = [1, 2, 3]
+asd = 'qwe'
+zxc = [{'s': 2}, {'e': 4}]
+res_zip = list(zip(qwe, zxc, asd))
+print(res_zip)  # [(1, {'s': 2}, 'q'), (2, {'e': 4}, 'w')]
+
+
+def unpack_zip(res_zip):
+    for q, w, e in res_zip:
+        yield q, w, e
+
+
+for qq, ww, ee in unpack_zip(res_zip):
+    print(f'-1------{qq}')
+    print(f'==2======{ww}')
+    print(f'>>>3>>>>>>{ee}')
+
